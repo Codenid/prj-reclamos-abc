@@ -35,9 +35,12 @@ Su diseño contempla:
 ### Imagen del MER
 > Diagrama generado con https://dbdiagram.io/
 
-```markdown
-![MER - Gestión de Reclamos](./docs/mer-gestion-reclamos.png)
-```
+### Documentación online
+> Documentación en dbdocs: https://dbdocs.io/winstonflores30/Prj-Reclamos-Core
+
+![MER-GestiondeReclamosAbc](./docs/mer-gestion-reclamos.svg)
+
+---
 
 ### Diccionario de datos
 
