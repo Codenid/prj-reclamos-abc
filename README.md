@@ -1,203 +1,163 @@
-# 📑 Proyecto Cloud - Gestión de Reclamos
+# 📑 Proyecto Cloud – Gestión de Reclamos
 
-Este documento el proyecto cloud **gestión de reclamos**, diseñada para soportar el ciclo de vida completo de un reclamo: registro, asignación, revisión, evidencias, historial de estados y movimientos asociados.
+Este documento describe el proyecto **Gestión de Reclamos**, una solución cloud modular diseñada para cubrir el ciclo completo de atención de reclamos: desde el registro inicial hasta la resolución, incluyendo asignaciones, revisiones, evidencias, trazabilidad de estados y movimientos externos.
 
 ---
 
 ## 📌 Índice
 
-### A) Arquitectura:
+1. [🔧 Arquitectura General](#-arquitectura-general)
+2. [🧩 APIs del Proyecto](#-apis-del-proyecto)
+3. [🖥️ Web Reclamos](#-web-reclamos)
+4. [📝 Descripción General](#-descripción-general)
+5. [🗂 Modelo Entidad-Relación (MER)](#-modelo-entidad-relación-mer)
+6. [📊 Diccionario de Datos](#-diccionario-de-datos)
+7. [🗄 Scripts SQL](#-scripts-sql)
+8. [📌 Notas de Diseño](#-notas-de-diseño)
+9. [👥 Autores](#-autores)
+
+---
+
+## 🔧 Arquitectura General
+
+La solución se despliega sobre AWS Cloud, combinando componentes tradicionales y serverless para garantizar escalabilidad, seguridad y modularidad.
+
+📌 Diagrama de arquitectura:
 
 ![ASReclamosAbc](./docs/as-reclamos.svg)
 
-### A) API Reclamos
+**Componentes destacados:**
 
-1. [Descripción general](#-descripción-general)
-2. [Modelo Entidad-Relación (MER)](#-modelo-entidad-relación-mer)
-   - [Imagen del MER](#imagen-del-mer)
-   - [Diccionario de datos](#diccionario-de-datos)
-3. [Scripts SQL](#-scripts-sql)
-   - [DDL - Definición de esquema](#ddl---definición-de-esquema)
-   - [DML - Carga inicial de datos](#dml---carga-inicial-de-datos)
-4. [Notas de diseño](#-notas-de-diseño)
+- **Subred pública**: balanceador de carga + web on containers (tracking reclamos).
+- **Subred privada**: balanceador interno + application servers + bases de datos PostgreSQL (RDS).
+- **Serverless**: microservicios en Lambda y DynamoDB para APIs de Tarjetas y Movimientos.
+- **Flujo completo**: desde usuarios externos hasta persistencia y lógica de negocio.
 
-### B) APIs Core
-
-1. Api Clientes:
-
-    > Repo: https://github.com/Codenid/api-clientes-abc
-
-    > Deploy: http://52.1.53.185:8000/api/clientes/lookup
-
-    > Catálogo: http://52.1.53.185:8000/docs
-
-2. Api Tarjetas:
-
-    > Repo: https://github.com/Codenid/api-tarjetas-abc
-
-    > Deploy: https://ugl4isqmt3.execute-api.us-east-1.amazonaws.com/dev/tarjetas/listar
-
-    > Catálogo: https://ugl4isqmt3.execute-api.us-east-1.amazonaws.com/dev/tarjetas/listar
-
-3. Api Transacciones:
-
-    > Repo: https://github.com/Codenid/api-transacciones-abc
-
-    > Deploy: https://aln4z3dlj1.execute-api.us-east-1.amazonaws.com/transacciones/
-
-    > Catálogo: https://aln4z3dlj1.execute-api.us-east-1.amazonaws.com/transacciones/
-
-
-### c) Web Reclamos
-
-1. Repo: https://github.com/Codenid/web-reclamos-abc
-2. Deploy: http://13.222.79.184:3000/
 ---
 
-## 📝 Descripción general
+## 🧩 APIs del Proyecto
 
-La base de datos está implementada en **PostgreSQL** bajo el esquema `gestion_reclamos`.  
-Su diseño contempla:
+| API             | Repositorio | Endpoint | Catálogo |
+|----------------|-------------|----------|----------|
+| **Clientes**    | [Repo](https://github.com/Codenid/api-clientes-abc) | [Lookup](http://52.1.53.185:8000/api/clientes/lookup) | [Docs](http://52.1.53.185:8000/docs) |
+| **Tarjetas**    | [Repo](https://github.com/Codenid/api-tarjetas-abc) | [Listar](https://ugl4isqmt3.execute-api.us-east-1.amazonaws.com/dev/tarjetas/listar) | [Docs](https://ugl4isqmt3.execute-api.us-east-1.amazonaws.com/dev/tarjetas/listar) |
+| **Transacciones** | [Repo](https://github.com/Codenid/api-transacciones-abc) | [Transacciones](https://aln4z3dlj1.execute-api.us-east-1.amazonaws.com/transacciones/) | [Docs](https://aln4z3dlj1.execute-api.us-east-1.amazonaws.com/transacciones/) |
+| **Reclamos**    | [Repo](https://github.com/Codenid/api-reclamos-abc) | [Home](http://13.222.79.184:8001/) | [Docs](http://13.222.79.184:8001/docs) |
 
-- **Reclamos** como entidad central, vinculados a clientes y productos externos.
-- **Estados** y **historial de estados** para trazabilidad completa.
-- **Asignaciones** a equipos y analistas de backoffice.
-- **Revisores** y sus decisiones.
-- **Evidencias** y **movimientos externos** asociados a cada reclamo.
+📎 Subsecciones de la API de Reclamos:
+- [Descripción general](#-descripción-general)
+- [Modelo Entidad-Relación (MER)](#-modelo-entidad-relación-mer)
+- [Scripts SQL](#-scripts-sql)
+- [Notas de diseño](#-notas-de-diseño)
+
+---
+
+## 🖥️ Web Reclamos
+
+- **Repositorio**: [web-reclamos-abc](https://github.com/Codenid/web-reclamos-abc)
+- **Deploy**: [http://13.222.79.184:3000/](http://13.222.79.184:3000/)
+
+---
+
+## 📝 Descripción General
+
+La base de datos está implementada en **PostgreSQL**, bajo el esquema `gestion_reclamos`.  
+El modelo contempla:
+
+- Reclamos como entidad central.
+- Estados y trazabilidad histórica.
+- Asignaciones a equipos y analistas.
+- Revisión por tipos de revisores.
+- Evidencias y movimientos externos.
 
 ---
 
 ## 🗂 Modelo Entidad-Relación (MER)
 
-### Imagen del MER
-> Diagrama generado con https://dbdiagram.io/
-
-### Documentación online
-> Documentación en dbdocs: https://dbdocs.io/winstonflores30/Prj-Reclamos-Core
+📌 Diagrama generado con [dbdiagram.io](https://dbdiagram.io/)  
+📚 Documentación interactiva: [dbdocs.io](https://dbdocs.io/winstonflores30/Prj-Reclamos-Core)
 
 ![MER-GestiondeReclamosAbc](./docs/mer-gestion-reclamos.svg)
 
 ---
 
-### Diccionario de datos
+## 📊 Diccionario de Datos
 
-| Tabla                  | Descripción                                                                 |
-|-------------------------|-----------------------------------------------------------------------------|
-| **tipos_reclamo**       | Catálogo de tipos de reclamo (ej. fraude, cobro indebido).                  |
-| **estados_reclamo**     | Catálogo de estados posibles de un reclamo.                                |
-| **tipos_revisor**       | Catálogo de tipos de revisor (ej. legal, auditoría).                       |
-| **reclamos**            | Entidad principal: contiene datos del reclamo, cliente, producto y estado. |
-| **historial_estados**   | Registro de cambios de estado de cada reclamo.                             |
-| **equipos_backoffice**  | Equipos responsables de gestionar reclamos.                                |
-| **analistas**           | Analistas que pertenecen a equipos.                                        |
-| **miembros_equipo**     | Relación N:M entre equipos y analistas.                                    |
-| **asignaciones_reclamo**| Asignaciones de reclamos a equipos y analistas.                            |
-| **revisores**           | Personas que revisan reclamos según su tipo.                               |
-| **revisores_reclamo**   | Relación entre reclamos y revisores, con decisión y notas.                 |
-| **evidencias_reclamo**  | Evidencias asociadas a un reclamo (archivos, metadatos).                   |
-| **movimientos_reclamo** | Movimientos externos vinculados a un reclamo.                              |
+| Tabla | Descripción |
+|-------|-------------|
+| `tipos_reclamo` | Catálogo de tipos de reclamo. |
+| `estados_reclamo` | Estados posibles de un reclamo. |
+| `tipos_revisor` | Tipos de revisor (legal, riesgos, etc.). |
+| `reclamos` | Entidad principal con vínculo a cliente, producto y estado. |
+| `historial_estados` | Trazabilidad de cambios de estado. |
+| `equipos_backoffice` | Equipos que gestionan reclamos. |
+| `analistas` | Analistas asignados a equipos. |
+| `miembros_equipo` | Relación N:M entre equipos y analistas. |
+| `asignaciones_reclamo` | Asignaciones específicas por reclamo. |
+| `revisores` | Personas que revisan reclamos. |
+| `revisores_reclamo` | Relación con decisión y notas. |
+| `evidencias_reclamo` | Archivos y metadatos asociados. |
+| `movimientos_reclamo` | Eventos externos vinculados. |
 
 ---
 
 ## 🗄 Scripts SQL
 
-### DDL - Definición de esquema
-Archivo: [`scripts/schema_ddl.sql`](./scripts/schema_ddl.sql)  
-Contiene la creación de todas las tablas, claves primarias, foráneas e índices.
+### 📁 DDL – Definición de Esquema
 
-Ejemplo:
+Archivo: [`schema_ddl.sql`](./scripts/schema_ddl.sql)  
+Incluye creación de esquema, tablas, claves primarias, foráneas e índices.
+
+📌 Ejemplo:
 ```sql
 CREATE SCHEMA IF NOT EXISTS gestion_reclamos;
 
--- Catálogos
 CREATE TABLE IF NOT EXISTS gestion_reclamos.tipos_reclamo (
   id_tipo_reclamo SMALLSERIAL PRIMARY KEY,
   codigo VARCHAR(32) UNIQUE NOT NULL,
   nombre VARCHAR(120) NOT NULL,
   descripcion VARCHAR(300)
 );
-
-CREATE TABLE IF NOT EXISTS gestion_reclamos.estados_reclamo (
-  id_estado BIGSERIAL PRIMARY KEY,
-  codigo VARCHAR(40) UNIQUE NOT NULL,
-  nombre VARCHAR(120) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS gestion_reclamos.tipos_revisor (
-  id_tipo_revisor SMALLSERIAL PRIMARY KEY,
-  codigo VARCHAR(32) UNIQUE NOT NULL,
-  nombre VARCHAR(120) NOT NULL,
-  descripcion VARCHAR(300)
-);
-
--- Reclamos
-CREATE TABLE IF NOT EXISTS gestion_reclamos.reclamos (
-  id_reclamo BIGSERIAL PRIMARY KEY,
-  id_cliente INT NOT NULL,
-  id_producto INT NOT NULL,
-  id_tipo_reclamo SMALLINT NOT NULL REFERENCES gestion_reclamos.tipos_reclamo(id_tipo_reclamo),
-  id_estado_actual BIGINT NOT NULL REFERENCES gestion_reclamos.estados_reclamo(id_estado),
-  fecha_apertura DATE NOT NULL,
-  fecha_cierre DATE,
-  canal VARCHAR(32),
-  referencia_externa VARCHAR(64) UNIQUE NOT NULL,
-  descripcion VARCHAR(1000),
-  monto NUMERIC(10,2),
-  moneda VARCHAR(3),
-  fecha_actualizacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-### DML - Carga inicial de datos
-Archivo: [`scripts/data_dml.sql`](./scripts/data_dml.sql)  
-Incluye catálogos iniciales para pruebas y configuración.
-
-Ejemplo:
-```sql
--- ============================
--- Catálogos
--- ============================
-
--- Tipos de reclamo
-INSERT INTO gestion_reclamos.tipos_reclamo (codigo, nombre, descripcion)
-VALUES
-  ('FRAUDE_TARJETA', 'Fraude en tarjeta', 'Transacciones no reconocidas.'),
-  ('DOBLE_COBRO', 'Doble cobro', 'Duplicidad de cargos.'),
-  ('NO_ENTREGA', 'No entrega', 'Producto/servicio no recibido.'),
-  ('CARGO_NO_AUTORIZADO', 'Cargo no autorizado', 'Cargo sin consentimiento.'),
-  ('ERROR_MONTO', 'Error en monto', 'Monto incorrecto en transacción.')
-ON CONFLICT (codigo) DO NOTHING;
-
--- Estados del reclamo
-INSERT INTO gestion_reclamos.estados_reclamo (codigo, nombre)
-VALUES
-  ('ASIGNADO', 'Asignado'),
-  ('PENDIENTE_DE_RASTREO', 'Pendiente de rastreo'),
-  ('RASTREADO', 'Rastreado'),
-  ('PENDIENTE_DE_VALIDACION', 'Pendiente de validación'),
-  ('VALIDADO', 'Validado'),
-  ('NOTIFICADO', 'Notificado'),
-  ('CERRADO', 'Cerrado')
-ON CONFLICT (codigo) DO NOTHING;
-
--- Tipos de revisor
-INSERT INTO gestion_reclamos.tipos_revisor (codigo, nombre, descripcion)
-VALUES
-  ('LEGAL', 'Legal', 'Revisión por equipo legal.'),
-  ('RIESGOS', 'Riesgos', 'Revisión por gestión de riesgos.'),
-  ('CUMPLIMIENTO', 'Cumplimiento', 'Revisión normativa/compliance.'),
-  ('IMAGEN', 'Imagen Institucional', 'Revisión de comunicaciones.')
-ON CONFLICT (codigo) DO NOTHING;
-
+-- ...
 ```
 
 ---
 
-## 📌 Notas de diseño
+### 📁 DML – Carga Inicial de Datos
 
-- Todas las tablas incluyen **claves primarias autoincrementales** (`SMALLSERIAL` o `BIGSERIAL`) según cardinalidad esperada.
-- Se definen **índices compuestos y restricciones únicas** para garantizar integridad (ej. `miembros_equipo`, `movimientos_reclamo`).
-- Se aplican **relaciones en cascada** en entidades dependientes (ej. historial, evidencias, asignaciones).
-- El modelo está preparado para **auditoría y trazabilidad completa** de cada reclamo.
+Archivo: [`data_dml.sql`](./scripts/data_dml.sql)  
+Contiene inserciones para catálogos base.
 
+📌 Ejemplo:
+```sql
+INSERT INTO gestion_reclamos.tipos_reclamo (codigo, nombre, descripcion)
+VALUES
+  ('FRAUDE_TARJETA', 'Fraude en tarjeta', 'Transacciones no reconocidas.'),
+  ('DOBLE_COBRO', 'Doble cobro', 'Duplicidad de cargos.')
+-- ...
+```
+
+---
+
+## 📌 Notas de Diseño
+
+- Uso de claves primarias autoincrementales (`SMALLSERIAL`, `BIGSERIAL`) según cardinalidad.
+- Índices compuestos y restricciones únicas para integridad referencial.
+- Relaciones en cascada para historial, evidencias y asignaciones.
+- Preparado para auditoría y trazabilidad completa.
+- Modularidad pensada para onboarding técnico y escalabilidad.
+
+---
+
+## 👥 Autores
+
+| Nombre | Rol | Perfil |
+|--------|-----|--------|
+| **Nicole Arenas L.** | Project Manager | [Narenas96](https://github.com/narenas96) |
+| **Edgard Inga** | Project Manager | [DragdeFroylan](https://github.com/DragdeFroylan) |
+| **Estuardo** | Project Manager | - |
+| **Gianmarco** | Project Manager | - |
+| **DM** | Project Manager | - |
+| **Piero Palacios B.** | Project Manager & Frontend | [Pipaber](https://github.com/pipaber) |
+| **Winston Flores** | Arquitecto de Soluciones | [Codenid](https://github.com/Codenid) |
 ---
