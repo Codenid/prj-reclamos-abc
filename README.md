@@ -1,10 +1,16 @@
-# 📑 Base de Datos - Gestión de Reclamos
+# 📑 Proyecto Cloud - Gestión de Reclamos
 
-Este documento describe la **base de datos del sistema de gestión de reclamos**, diseñada para soportar el ciclo de vida completo de un reclamo: registro, asignación, revisión, evidencias, historial de estados y movimientos asociados.
+Este documento el proyecto cloud **gestión de reclamos**, diseñada para soportar el ciclo de vida completo de un reclamo: registro, asignación, revisión, evidencias, historial de estados y movimientos asociados.
 
 ---
 
 ## 📌 Índice
+
+### A) Arquitectura:
+
+![ASReclamosAbc](./docs/as-reclamos.svg)
+
+### A) API Reclamos
 
 1. [Descripción general](#-descripción-general)
 2. [Modelo Entidad-Relación (MER)](#-modelo-entidad-relación-mer)
@@ -15,6 +21,37 @@ Este documento describe la **base de datos del sistema de gestión de reclamos**
    - [DML - Carga inicial de datos](#dml---carga-inicial-de-datos)
 4. [Notas de diseño](#-notas-de-diseño)
 
+### B) APIs Core
+
+1. Api Clientes:
+
+    > Repo: https://github.com/Codenid/api-clientes-abc
+
+    > Deploy: http://52.1.53.185:8000/api/clientes/lookup
+
+    > Catálogo: http://52.1.53.185:8000/docs
+
+2. Api Tarjetas:
+
+    > Repo: https://github.com/Codenid/api-tarjetas-abc
+
+    > Deploy: https://ugl4isqmt3.execute-api.us-east-1.amazonaws.com/dev/tarjetas/listar
+
+    > Catálogo: https://ugl4isqmt3.execute-api.us-east-1.amazonaws.com/dev/tarjetas/listar
+
+3. Api Transacciones:
+
+    > Repo: https://github.com/Codenid/api-transacciones-abc
+
+    > Deploy: https://aln4z3dlj1.execute-api.us-east-1.amazonaws.com/transacciones/
+
+    > Catálogo: https://aln4z3dlj1.execute-api.us-east-1.amazonaws.com/transacciones/
+
+
+### c) Web Reclamos
+
+1. Repo: https://github.com/Codenid/web-reclamos-abc
+2. Deploy: http://13.222.79.184:3000/
 ---
 
 ## 📝 Descripción general
