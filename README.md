@@ -155,9 +155,9 @@ VALUES
 |--------|-----|--------|
 | **Nicole Arenas L.** | Project Manager | [Narenas96](https://github.com/narenas96) |
 | **Edgard Inga** | Project Manager | [DragdeFroylan](https://github.com/DragdeFroylan) |
-| **Estuardo Oliver C.** | Project Manager | [Estuardoo](https://github.com/estuardoo) |
+| **Estuardo Oliver Campos** | Project Manager | [Estuardoo](https://github.com/estuardoo) |
 | **Gianmarco** | Project Manager | - |
-| **DM** | Project Manager | - |
-| **Piero Palacios B.** | Project Manager & Frontend | [Pipaber](https://github.com/pipaber) |
+| **Diego Sanchez Salazar** | Project Manager | - |
+| **Piero Palacios Bernuy** | Project Manager & Frontend | [Pipaber](https://github.com/pipaber) |
 | **Winston Flores** | Arquitecto de Soluciones | [Codenid](https://github.com/Codenid) |
 ---
