@@ -153,7 +153,7 @@ VALUES
 
 | Nombre | Rol | Perfil |
 |--------|-----|--------|
-| **Nicole Arenas L.** | Project Manager | [Narenas96](https://github.com/narenas96) |
+| **Nicole Arenas Lazo** | Project Manager | [Narenas96](https://github.com/narenas96) |
 | **Edgard Inga** | Project Manager | [DragdeFroylan](https://github.com/DragdeFroylan) |
 | **Estuardo Oliver Campos** | Project Manager | [Estuardoo](https://github.com/estuardoo) |
 | **Gianmarco** | Project Manager | - |
