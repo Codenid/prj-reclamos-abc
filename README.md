@@ -19,7 +19,6 @@ Este documento describe el proyecto **Gestión de Reclamos**, una solución clou
     - [📁 DML – Carga Inicial de Datos](#-dml--carga-inicial-de-datos)
   - [📌 Notas de Diseño](#-notas-de-diseño)
   - [👥 Autores](#-autores)
-  - [| **Winston Flores** | Arquitecto de Soluciones | Codenid |](#-winston-flores--arquitecto-de-soluciones--codenid-)
 
 ---
 
@@ -165,4 +164,3 @@ VALUES
 | **Diego Sanchez Salazar** | Project Manager | [Diego9828](https://github.com/Diego9828) |
 | **Piero Palacios Bernuy** | Project Manager & Frontend | [Pipaber](https://github.com/pipaber) |
 | **Winston Flores** | Arquitecto de Soluciones | [Codenid](https://github.com/Codenid) |
----
