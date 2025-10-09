@@ -1,6 +1,6 @@
 # 📑 Proyecto Cloud – Gestión de Reclamos
 
-Este documento describe el proyecto **Gestión de Reclamos**, una solución cloud modular diseñada para cubrir el ciclo completo de atención de reclamos: desde el registro inicial hasta la resolución, incluyendo asignaciones, revisiones, evidencias, trazabilidad de estados y movimientos externos.
+Este documento describe el proyecto **Gestión de Reclamos en Tarjetas de Créditos**, una solución cloud modular diseñada para cubrir el ciclo completo de atención de reclamos: desde el registro inicial hasta la resolución, incluyendo asignaciones, revisiones, evidencias, trazabilidad de estados y movimientos externos.
 
 ---
 
