@@ -6,15 +6,20 @@ Este documento describe el proyecto **Gestión de Reclamos**, una solución clou
 
 ## 📌 Índice
 
-1. [🔧 Arquitectura General](#-arquitectura-general)
-2. [🧩 APIs del Proyecto](#-apis-del-proyecto)
-3. [🖥️ Web Reclamos](#-web-reclamos)
-4. [📝 Descripción General](#-descripción-general)
-5. [🗂 Modelo Entidad-Relación (MER)](#-modelo-entidad-relación-mer)
-6. [📊 Diccionario de Datos](#-diccionario-de-datos)
-7. [🗄 Scripts SQL](#-scripts-sql)
-8. [📌 Notas de Diseño](#-notas-de-diseño)
-9. [👥 Autores](#-autores)
+- [📑 Proyecto Cloud – Gestión de Reclamos](#-proyecto-cloud--gestión-de-reclamos)
+  - [📌 Índice](#-índice)
+  - [🔧 Arquitectura General](#-arquitectura-general)
+  - [🧩 APIs del Proyecto](#-apis-del-proyecto)
+  - [🖥️ Web Reclamos](#️-web-reclamos)
+  - [📝 Descripción General](#-descripción-general)
+  - [🗂 Modelo Entidad-Relación (MER)](#-modelo-entidad-relación-mer)
+  - [📊 Diccionario de Datos](#-diccionario-de-datos)
+  - [🗄 Scripts SQL](#-scripts-sql)
+    - [📁 DDL – Definición de Esquema](#-ddl--definición-de-esquema)
+    - [📁 DML – Carga Inicial de Datos](#-dml--carga-inicial-de-datos)
+  - [📌 Notas de Diseño](#-notas-de-diseño)
+  - [👥 Autores](#-autores)
+  - [| **Winston Flores** | Arquitecto de Soluciones | Codenid |](#-winston-flores--arquitecto-de-soluciones--codenid-)
 
 ---
 
@@ -156,8 +161,8 @@ VALUES
 | **Nicole Arenas Lazo** | Project Manager | [Narenas96](https://github.com/narenas96) |
 | **Edgard Inga** | Project Manager | [DragdeFroylan](https://github.com/DragdeFroylan) |
 | **Estuardo Oliver Campos** | Project Manager | [Estuardoo](https://github.com/estuardoo) |
-| **Gianmarco** | Project Manager | - |
-| **Diego Sanchez Salazar** | Project Manager | - |
+| **Gianmarco Mejía** | Project Manager | [gianmarcomejia96](https://github.com/gianmarcomejia96) |
+| **Diego Sanchez Salazar** | Project Manager | [Diego9828](https://github.com/Diego9828) |
 | **Piero Palacios Bernuy** | Project Manager & Frontend | [Pipaber](https://github.com/pipaber) |
 | **Winston Flores** | Arquitecto de Soluciones | [Codenid](https://github.com/Codenid) |
 ---
