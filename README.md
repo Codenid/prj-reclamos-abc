@@ -28,7 +28,7 @@ La solución se despliega sobre AWS Cloud, combinando componentes tradicionales 
 
 📌 Diagrama de arquitectura:
 
-![ASReclamosAbc](./docs/as-reclamos.svg)
+![ASReclamosAbc](./docs/as-reclamos-tc.svg)
 
 **Componentes destacados:**
 
